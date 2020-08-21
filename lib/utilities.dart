@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class EndPoint {
   static const String authenticationBaseURL =
-      "http://libmotapidev.azurewebsites.net";
+      "https://libmotapidevrs.azurewebsites.net";
 
   ///
   ///
