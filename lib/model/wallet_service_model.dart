@@ -1,4 +1,4 @@
-import 'package:driver_salary/api_response.dart';
+import 'package:driver_salary/Functions/api_response.dart';
 
 class WalletDetails implements BluePrint {
   WalletDetails(

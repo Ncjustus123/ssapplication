@@ -1,8 +1,8 @@
-import 'package:driver_salary/CustomWidget.dart';
-import 'package:driver_salary/api_response.dart';
-import 'package:driver_salary/authentication_models.dart';
+import 'package:driver_salary/Functions/CustomWidget.dart';
+import 'package:driver_salary/Functions/api_response.dart';
+import 'package:driver_salary/Functions/authentication_models.dart';
 import 'package:driver_salary/authentication_service.dart';
-import 'package:driver_salary/utilities.dart';
+import 'package:driver_salary/Functions/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -30,7 +30,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       backgroundColor: Colors.grey[200],
       appBar: CustomWidget.getAppBar(context, "Change Password", true),
       body: SingleChildScrollView(
-              child: Stack(
+        child: Stack(
           children: <Widget>[
             Column(
               children: <Widget>[
@@ -39,7 +39,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                   child: Form(
                     key: _formKey,
                     child: Column(
@@ -47,11 +47,11 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         Container(
                           margin: EdgeInsets.only(bottom: 10.0),
                           child: Card(
-                             shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20))),
-                             
-                                                    child: TextFormField(
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+
+                            child: TextFormField(
                               textInputAction: TextInputAction.next,
                               onFieldSubmitted: (v) {
                                 FocusScope.of(context).requestFocus(f1);
@@ -64,7 +64,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                               },
                               controller: cPassContr,
                               decoration:
-                                  CustomWidget.getInputDeco("Current Password"),
+                              CustomWidget.getInputDeco("Current Password"),
                             ),
                           ),
                         ),
@@ -73,8 +73,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                             child: Card(
                               shape: RoundedRectangleBorder(
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(20))),
-                                                        child: TextFormField(
+                                  BorderRadius.all(Radius.circular(20))),
+                              child: TextFormField(
                                 textInputAction: TextInputAction.done,
                                 focusNode: f1,
                                 onFieldSubmitted: (v) {
@@ -91,7 +91,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                 },
                                 controller: c1Contr,
                                 decoration:
-                                    CustomWidget.getInputDeco("New password"),
+                                CustomWidget.getInputDeco("New password"),
                                 obscureText: true,
                               ),
                             )),
@@ -100,8 +100,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                             child: Card(
                               shape: RoundedRectangleBorder(
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(20))),
-                                                        child: TextFormField(
+                                  BorderRadius.all(Radius.circular(20))),
+                              child: TextFormField(
                                 textInputAction: TextInputAction.done,
                                 focusNode: f2,
                                 onFieldSubmitted: (v) {
@@ -115,7 +115,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                 },
                                 controller: c2Contr,
                                 decoration:
-                                    CustomWidget.getInputDeco("Confirm password"),
+                                CustomWidget.getInputDeco("Confirm password"),
                                 obscureText: true,
                               ),
                             )),
@@ -124,11 +124,11 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                             width: double.infinity,
                             margin: EdgeInsets.only(top: 50.0, bottom: 11.0, left: 40, right: 40),
                             child: RaisedButton(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
 
-                             
+
                               color: Colors.red,
                               onPressed: () {
                                 if (!_formKey.currentState.validate()) {
@@ -156,10 +156,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             ),
             (_loading)
                 ? Container(
-                    color: Colors.white70,
-                    alignment: Alignment.center,
-                    child: CircularProgressIndicator(),
-                  )
+              color: Colors.white70,
+              alignment: Alignment.center,
+              child: CircularProgressIndicator(),
+            )
                 : SizedBox()
           ],
         ),
@@ -172,8 +172,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       _loading = true;
     });
     changePassReqObject request = changePassReqObject(
-         cPassContr.text,
-         c2Contr.text);
+        cPassContr.text,
+        c2Contr.text);
     APIResponse response = ServiceUtilities.decorateResponse(
         await authClient.changePassword(request.toJSON()), null);
 

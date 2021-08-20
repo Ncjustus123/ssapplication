@@ -24,25 +24,32 @@ class TokenRequestObject implements BluePrint {
   }
 
   @override
+  // ignore: override_on_non_overriding_member
   fromList(List list) {
-    // TODO: implement fromList
+
     return null;
   }
 }
 
 class TokenResponseObject implements BluePrint<TokenResponseObject> {
-  TokenResponseObject({this.access_token, this.token_type, this.expires_in});
+  // ignore: non_constant_identifier_names
+  TokenResponseObject({this.access_token, this.token_type, this.expires_in, this.user});
 
   factory TokenResponseObject.fromJson(Map json) {
     return TokenResponseObject(
         access_token: json['token'],
         token_type: json['token'],
+        user: json['user'],
         expires_in: json['expires_in']);
   }
 
+  // ignore: non_constant_identifier_names
   final String access_token;
+  // ignore: non_constant_identifier_names
   final String token_type;
+  // ignore: non_constant_identifier_names
   final int expires_in;
+  final String user;
 
   @override
   TokenResponseObject fromJSON(dynamic json) {
@@ -56,10 +63,12 @@ class TokenResponseObject implements BluePrint<TokenResponseObject> {
     json['token'] = access_token;
     json['token_type'] = token_type;
     json['expires_in'] = expires_in;
+    json['user'] = user;
     return json;
   }
 
   @override
+  // ignore: override_on_non_overriding_member
   TokenResponseObject fromList(List list) {
     // TODO: implement fromList
     return null;
@@ -69,12 +78,12 @@ class TokenResponseObject implements BluePrint<TokenResponseObject> {
 class SignUpRequestObject implements BluePrint {
   SignUpRequestObject(
       {this.firstName,
-      this.lastName,
-      this.email,
-      this.phoneNumber,
-      this.gender,
-      this.password,
-      this.dialingCode});
+        this.lastName,
+        this.email,
+        this.phoneNumber,
+        this.gender,
+        this.password,
+        this.dialingCode});
 
   factory SignUpRequestObject.fromJson(Map json) {
     return SignUpRequestObject(
@@ -114,6 +123,7 @@ class SignUpRequestObject implements BluePrint {
   }
 
   @override
+  // ignore: override_on_non_overriding_member
   fromList(List list) {
     // TODO: implement fromList
     return null;
@@ -136,6 +146,7 @@ class SignUpResponseObject implements BluePrint {
   }
 
   @override
+  // ignore: override_on_non_overriding_member
   fromList(List list) {
     // TODO: implement fromList
     return null;
@@ -145,16 +156,16 @@ class SignUpResponseObject implements BluePrint {
 class ProFileResponseObject implements BluePrint {
   ProFileResponseObject(
       {this.lastName,
-      this.firstName,
-      this.fullName,
-      this.email,
-      this.phoneNumber,
-      this.emailConfirmed,
-      this.createdOnUtc,
-      this.lastLoginDate,
-      this.activated,
-      this.roleName,
-      this.userId});
+        this.firstName,
+        this.fullName,
+        this.email,
+        this.phoneNumber,
+        this.emailConfirmed,
+        this.createdOnUtc,
+        this.lastLoginDate,
+        this.activated,
+        this.roleName,
+        this.userId});
 
   factory ProFileResponseObject.fromJson(Map json) {
     return ProFileResponseObject(
@@ -206,6 +217,7 @@ class ProFileResponseObject implements BluePrint {
   }
 
   @override
+  // ignore: override_on_non_overriding_member
   fromList(List list) {
     // TODO: implement fromList
     return null;
@@ -231,19 +243,19 @@ class DriverDetails implements BluePrint {
 
   DriverDetails(
       {this.id,
-      this.code,
-      this.handoverCode,
-      this.driverStatus,
-      this.name,
-      this.active,
-      this.nextOfKinNumber,
-      this.walletId,
-      this.walletNumber,
-      this.walletBalance,
-      this.details,
-      this.balance,
-      this.userId,
-      this.email});
+        this.code,
+        this.handoverCode,
+        this.driverStatus,
+        this.name,
+        this.active,
+        this.nextOfKinNumber,
+        this.walletId,
+        this.walletNumber,
+        this.walletBalance,
+        this.details,
+        this.balance,
+        this.userId,
+        this.email});
 
   @override
   fromJSON(json) {
@@ -284,8 +296,7 @@ class DriverDetails implements BluePrint {
   }
 }
 
-
-  class changePassReqObject implements BluePrint {
+class changePassReqObject implements BluePrint {
   changePassReqObject(this.currentPassword, this.newPasword);
 
   factory changePassReqObject.fromJson(Map json) {
@@ -307,6 +318,102 @@ class DriverDetails implements BluePrint {
     json['newPassword'] = newPasword;
     return json;
   }
+}
 
+class AllInventoryObject implements BluePrint {
+  final String code;
+  final int companyId;
+  final String captureDate;
+  final int itemId;
+  final String itemName;
+  final int warehouseID;
+  final String warehouseName;
+  final String warehouseBinID;
+  final String warehouseBinName;
+  final int vendorId;
+  final String venderName;
+  final int quantity;
+  final int unit;
+  final double price;
+  final int quantityReleased;
+  final int quantityInStock;
+  final double vat;
+  final bool isDeleted;
+  final String creationTime;
+  final int id;
 
+  AllInventoryObject(
+      {this.code,
+        this.companyId,
+        this.captureDate,
+        this.itemId,
+        this.itemName,
+        this.warehouseID,
+        this.warehouseName,
+        this.warehouseBinID,
+        this.warehouseBinName,
+        this.vendorId,
+        this.venderName,
+        this.quantity,
+        this.unit,
+        this.price,
+        this.quantityReleased,
+        this.quantityInStock,
+        this.vat,
+        this.isDeleted,
+        this.creationTime,
+        this.id});
+
+  @override
+  AllInventoryObject fromJSON(json) {
+    return AllInventoryObject(
+      code: json['code'],
+      companyId: json['companyId'],
+      captureDate: json['captureDate'],
+      itemId: json['itemId'],
+      itemName: json['itemName'],
+      warehouseID: json['warehouseID'],
+      warehouseName: json['warehouseName'],
+      warehouseBinID: json['warehouseBinID'],
+      warehouseBinName: json['warehouseBinName'],
+      vendorId: json['vendorId'],
+      venderName: json['venderoName'],
+      quantity: json['quantity'],
+      unit: json['unit'],
+      price: json['price'],
+      quantityReleased: json['quantityReleased'],
+      quantityInStock: json['quantityInStock'],
+      vat: json['vat'],
+      isDeleted: json['isDeleted'],
+      creationTime: json['creationTime'],
+      id: json['id'],
+    );
+  }
+
+  @override
+  Map toJSON() {
+    Map json = Map();
+
+    json['code'] = code;
+    json['code'] = companyId;
+    json['code'] = captureDate;
+    json['code'] = itemId;
+    json['code'] = itemName;
+    json['code'] = warehouseID;
+    json['code'] = warehouseName;
+    json['code'] = warehouseBinID;
+    json['code'] = warehouseBinName;
+    json['code'] = vendorId;
+    json['code'] = venderName;
+    json['code'] = quantity;
+    json['code'] = unit;
+    json['code'] = price;
+    json['code'] = quantityReleased;
+    json['code'] = quantityInStock;
+    json['code'] = vat;
+    json['code'] = isDeleted;
+    json['code'] = creationTime;
+    json['code'] = id;
+    return json;
+  }
 }

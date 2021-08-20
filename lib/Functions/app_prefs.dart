@@ -1,6 +1,10 @@
+import 'dart:convert';
+
+import 'package:driver_salary/model/getClaimsModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'authentication_models.dart';
+import '../model/profilemodel.dart';
 
 class AppPreference {
   AppPreference(this.preferences);
@@ -25,12 +29,14 @@ class AppPreference {
   static const String password = "password";
   static const String phoneNumber = "phone";
   static const String gender = "gender";
+  static const String userType = "userType";
 
   static const String email = "email";
   static const String token = 'token';
   static const String username = 'username';
   static const String fullName = 'fullName';
   static const String userId = "userId";
+  static const String claims = "claims";
 
   bool getBool(String key) {
     return preferences.getBool(key) == null ? false : preferences.getBool(key);
@@ -68,25 +74,38 @@ class AppPreference {
     return preferences.getDouble(key);
   }
 
-  void saveUserDetails(ProFileResponseObject s) {
+  //method to save List<ClaimsObject>
+  static String encodeClaims(List<ClaimsObject> obj) {
+    return json.encode(
+        obj.map<Map<String, dynamic>>((i) => ClaimsObject.toMap(i)).toList());
+  }
+
+  //decode
+  static List<ClaimsObject> decodeClaims(String claimsString) =>
+      (json.decode(claimsString) as List<dynamic>)
+          .map<ClaimsObject>((i) => ClaimsObject.fromJson(i))
+          .toList();
+
+  void saveUserDetails(ProfileModelObject s) {
     preferences.setString(firstName, s.firstName);
     preferences.setString(lastName, s.lastName);
     preferences.setString(phoneNumber, s.phoneNumber);
-    preferences.setString(fullName, s.fullName);
+    preferences.setInt(userType, s.userType);
     preferences.setString(email, s.email);
-    preferences.setString(userId, s.userId);
-//    preferences.setInt(gender, s.gender);
+    preferences.setString(claims, encodeClaims(s.claimsObject));
+
+    // preferences.setString(userId, s.userId);
   }
 
-  ProFileResponseObject getUseDetails() {
-    return ProFileResponseObject(
-        firstName: preferences.getString(firstName),
-        lastName: preferences.getString(lastName),
-        phoneNumber: preferences.get(phoneNumber),
-        fullName: preferences.getString(fullName),
-        email: preferences.getString(email),
-        userId: preferences.getString(userId));
-//        dialingCode: preferences.getString(dialingCode));
+  ProfileModelObject getUseDetails() {
+    return ProfileModelObject(
+      firstName: preferences.getString(firstName),
+      lastName: preferences.getString(lastName),
+      phoneNumber: preferences.get(phoneNumber),
+      email: preferences.getString(email),
+      userType: preferences.getInt(userType),
+      claimsObject: decodeClaims(preferences.getString(claims)),
+    );
   }
 
   TokenRequestObject getUserCredentials() {

@@ -1,31 +1,26 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
+//import 'package:progress_dialog/progress_dialog.dart';
 
 enum DialogType { error, success }
 
 class CustomWidget {
   static InputDecoration getInputDeco(String hint) {
     return InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.transparent)),
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.transparent)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(20)),
-                                      borderSide:
-                                          BorderSide(color: Colors.grey[300])),
-                                  labelText: hint,
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 8, horizontal: 20),
-                                  labelStyle: TextStyle(
-                                    color: Colors
-                                        .grey, //This is an example of a change
-                                  ),);
-                        
+      enabledBorder:
+      OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
+      border:
+      OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
+      focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderSide: BorderSide(color: Colors.grey[300])),
+      labelText: hint,
+      contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+      labelStyle: TextStyle(
+        color: Colors.grey, //This is an example of a change
+      ),
+    );
   }
 
   static String getNairaSign() {
@@ -127,6 +122,29 @@ class CustomWidget {
         });
   }
 
+  // static Future<ProgressDialog> showProgressDialog(
+  //     BuildContext context, String title) async {
+  //   ProgressDialog pr = ProgressDialog(context,
+  //       type: ProgressDialogType.Normal, isDismissible: false, showLogs: true);
+  //   pr.style(
+  //       progressWidget: Container(
+  //           padding: EdgeInsets.all(8.0),
+  //           child: Container(
+  //             child: SpinKitRing(
+  //               size: 50,
+  //               lineWidth: 4,
+  //               color: Colors.purple[700],
+  //             ),
+  //           )),
+  //       message: title,
+  //       messageTextStyle: TextStyle(
+  //           fontStyle: FontStyle.italic,
+  //           fontSize: 15,
+  //           fontWeight: FontWeight.w400));
+  //   await pr.show();
+  //   return pr;
+  // }
+
   static Widget ProfileItemTile(String label, String value) {
     return SizedBox(
       width: double.infinity,
@@ -165,10 +183,10 @@ class CustomWidget {
         backgroundColor: Colors.white,
         leading: (hasBack)
             ? IconButton(
-                icon: Icon(Icons.arrow_back),
-                color: Colors.black,
-                onPressed: () => Navigator.pop(context, returnValue),
-              )
+          icon: Icon(Icons.arrow_back),
+          color: Colors.black,
+          onPressed: () => Navigator.pop(context, returnValue),
+        )
             : SizedBox());
   }
 
@@ -187,6 +205,7 @@ class CustomWidget {
         .format(amount);
   }
 }
+
 class CustomCheckBox extends StatefulWidget {
   CustomCheckBox({this.value, this.title, this.center, this.onChange(bool e)});
 
@@ -223,7 +242,7 @@ class CheckBox extends State<CustomCheckBox> {
       height: 45,
       child: Row(
         mainAxisAlignment:
-            (center) ? MainAxisAlignment.center : MainAxisAlignment.start,
+        (center) ? MainAxisAlignment.center : MainAxisAlignment.start,
         children: <Widget>[
           Checkbox(
             activeColor: Colors.grey[800],
@@ -312,21 +331,20 @@ class Constants {
 Route createRoute(Widget page, String routeName) {
   print(routeName);
   return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => page,
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var begin = Offset(0.0, 1.0);
-        var end = Offset.zero;
-        var curve = Curves.ease;
+    pageBuilder: (context, animation, secondaryAnimation) => page,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      var begin = Offset(0.0, 1.0);
+      var end = Offset.zero;
+      var curve = Curves.ease;
 
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      },
-     );
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
 }
 
 class TicketPainter extends CustomPainter {

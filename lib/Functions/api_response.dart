@@ -1,14 +1,14 @@
 class APIResponse<T> {
   APIResponse(
-      {this.payload,
-      this.totalCount,
-      this.responseCode,
-      this.code,
-      this.description,
-      this.hasErrors,
-      this.statusCode,
-      this.raw,
-      this.errors});
+      { this.payload,
+        this.totalCount,
+        this.responseCode,
+        this.code,
+        this.description,
+        this.hasErrors,
+        this.statusCode,
+        this.raw,
+        this.errors});
 
   T payload;
   int totalCount;

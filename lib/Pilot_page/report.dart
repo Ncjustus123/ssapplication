@@ -1,39 +1,37 @@
-import 'package:driver_salary/CustomWidget.dart';
-import 'package:driver_salary/LogIn.dart';
-import 'package:driver_salary/api_response.dart';
-import 'package:driver_salary/app_prefs.dart';
-import 'package:driver_salary/authentication_models.dart';
+import 'package:driver_salary/Functions/CustomWidget.dart';
+
+
+import 'package:driver_salary/Functions/api_response.dart';
+import 'package:driver_salary/Functions/app_prefs.dart';
+import 'package:driver_salary/Functions/authentication_models.dart';
+import 'package:driver_salary/Pilot_page/change_password.dart';
+import 'package:driver_salary/Reusables/method_reusable.dart';
 import 'package:driver_salary/authentication_service.dart';
-import 'package:driver_salary/change_password.dart';
-import 'package:driver_salary/utilities.dart';
-import 'package:driver_salary/wallet_service_model.dart';
+
+import 'package:driver_salary/inventory_page/welcome_page.dart';
+import 'package:driver_salary/Functions/utilities.dart';
+import 'package:driver_salary/model/wallet_service_model.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
-import 'package:intl/intl.dart';
 
 class Report extends StatefulWidget {
   @override
-  _ReportState createState() => _ReportState(token: token);
-  final String token;
-
-  Report({this.token});
+  _ReportState createState() => _ReportState();
 }
 
 class _ReportState extends State<Report> {
-  AuthenticationClient get authClient => GetIt.I<AuthenticationClient>();
-  _ReportState({this.token});
-
-  String token;
   double maxHeight;
-  String _name = "";
+  String _name = '';
+  String pilotCode;
 
   dynamic currentMonthIndex;
 
   @override
   initState() {
     fetchDriverReport();
-    setUp();
     currentMonthIndex = months[DateTime.now().month - 1];
     month = currentMonthIndex;
     year = DateTime.now().year.toString();
@@ -64,7 +62,7 @@ class _ReportState extends State<Report> {
           children: <Widget>[
             Container(
               height: double.infinity,
-              color: Colors.red[900],
+              color: Colors.blueGrey[900],
             ),
             Container(
               transform: Matrix4.translationValues(0, 90, 0),
@@ -119,7 +117,7 @@ class _ReportState extends State<Report> {
                           _name.toUpperCase(),
                           overflow: TextOverflow.ellipsis,
                           style:
-                              TextStyle(fontSize: 17, color: Colors.grey[700]),
+                          TextStyle(fontSize: 14, color: Colors.grey[700],fontWeight: FontWeight.bold),
                         ),
                       )
                     ],
@@ -135,19 +133,21 @@ class _ReportState extends State<Report> {
                   ListTile(
                     title: Text("Change Password"),
                     leading: Icon(Icons.person),
-                    onTap: (){
-                      Navigator.of(context).push(createRoute(ChangePasswordPage(), ChangePasswordPage.routeName));
+                    onTap: () {
+                      Navigator.of(context).push(createRoute(
+                          ChangePasswordPage(), ChangePasswordPage.routeName));
                     },
                   ),
                   ListTile(
                     title: Text("Help and Support"),
                     leading: Icon(Icons.help),
+                    onTap: () {},
                   ),
                   ListTile(
                     title: Text("Log out"),
                     leading: Icon(Icons.exit_to_app),
                     onTap: () {
-                      logOut();
+                      logOut(context);
                     },
                   )
                 ],
@@ -157,11 +157,10 @@ class _ReportState extends State<Report> {
         ),
       ),
       appBar: AppBar(
-        title: Text(
-          "Pilot Salary",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-//        backgroundColor: Colors.white,
+        elevation: 10,
+        title: Text('Pilot Salary',
+            style: TextStyle(fontSize: 20, color: Colors.white)),
+        backgroundColor: Colors.blueGrey[900],
       ),
       body: Builder(builder: (context) {
         return Stack(
@@ -178,7 +177,10 @@ class _ReportState extends State<Report> {
                         children: <Widget>[
                           Text(
                             "PaySlip for the month of :   ",
-                            style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold, color: Colors.grey[700]),
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey[700]),
                           ),
                           Expanded(
                             child: DropdownButton(
@@ -187,7 +189,7 @@ class _ReportState extends State<Report> {
                               hint: Text(
                                 "month",
                                 style:
-                                    TextStyle(fontSize: 14, color: Colors.grey),
+                                TextStyle(fontSize: 14, color: Colors.grey),
                               ),
                               style: TextStyle(
                                   fontSize: 14,
@@ -201,12 +203,12 @@ class _ReportState extends State<Report> {
                                 getReport();
                               },
                               items: months.map<DropdownMenuItem<String>>(
-                                  (String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
+                                      (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
                             ),
                           ),
                           Expanded(
@@ -216,7 +218,7 @@ class _ReportState extends State<Report> {
                               hint: Text(
                                 "year",
                                 style:
-                                    TextStyle(fontSize: 14, color: Colors.grey),
+                                TextStyle(fontSize: 14, color: Colors.grey),
                               ),
                               style: TextStyle(
                                   fontSize: 14,
@@ -229,17 +231,17 @@ class _ReportState extends State<Report> {
                                 });
                               },
                               items: List<String>.generate(
-                                      10,
+                                  10,
                                       (index) => (DateTime.now().year - index)
-                                          .toString(),
-                                      growable: true)
+                                      .toString(),
+                                  growable: true)
                                   .map<DropdownMenuItem<String>>(
                                       (String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
                             ),
                           ),
                         ],
@@ -262,7 +264,7 @@ class _ReportState extends State<Report> {
                                   padding: const EdgeInsets.all(10),
                                   child: Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       Text(
                                         "Credit Report",
@@ -313,30 +315,30 @@ class _ReportState extends State<Report> {
                                 getHeader(Colors.green),
                                 Expanded(
                                   child: (_transactions
-                                              .getTransactions(0)
-                                              .length >
-                                          0)
+                                      .getTransactions(0)
+                                      .length >
+                                      0)
                                       ? ListView.separated(
-                                          physics: (h1 != 1)
-                                              ? NeverScrollableScrollPhysics()
-                                              : null,
-                                          itemCount: _transactions
-                                              .getTransactions(1)
-                                              .length,
-                                          separatorBuilder: (context, index) {
-                                            return Divider(
-                                              height: 1,
-                                            );
-                                          },
-                                          itemBuilder: (context, index) {
-                                            return getRow(_transactions
-                                                .getTransactions(1)[index]);
-                                          },
-                                        )
+                                    physics: (h1 != 1)
+                                        ? NeverScrollableScrollPhysics()
+                                        : null,
+                                    itemCount: _transactions
+                                        .getTransactions(1)
+                                        .length,
+                                    separatorBuilder: (context, index) {
+                                      return Divider(
+                                        height: 1,
+                                      );
+                                    },
+                                    itemBuilder: (context, index) {
+                                      return getRow(_transactions
+                                          .getTransactions(1)[index]);
+                                    },
+                                  )
                                       : Container(
-                                          alignment: Alignment.center,
-                                          child: Text("No Record found!"),
-                                        ),
+                                    alignment: Alignment.center,
+                                    child: Text("No Record found!"),
+                                  ),
                                 ),
                                 Divider(
                                   height: 1,
@@ -346,7 +348,7 @@ class _ReportState extends State<Report> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       Text(
                                         "Total ",
@@ -381,7 +383,7 @@ class _ReportState extends State<Report> {
                                   padding: const EdgeInsets.all(10),
                                   child: Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       Text(
                                         "Debit Report",
@@ -433,30 +435,30 @@ class _ReportState extends State<Report> {
                                 getHeader(Colors.red),
                                 Expanded(
                                   child: (_transactions
-                                              .getTransactions(0)
-                                              .length >
-                                          0)
+                                      .getTransactions(0)
+                                      .length >
+                                      0)
                                       ? ListView.separated(
-                                          physics: (h2 != 1)
-                                              ? NeverScrollableScrollPhysics()
-                                              : null,
-                                          itemCount: _transactions
-                                              .getTransactions(0)
-                                              .length,
-                                          separatorBuilder: (context, index) {
-                                            return Divider(
-                                              height: 1,
-                                            );
-                                          },
-                                          itemBuilder: (context, index) {
-                                            return getRow(_transactions
-                                                .getTransactions(0)[index]);
-                                          },
-                                        )
+                                    physics: (h2 != 1)
+                                        ? NeverScrollableScrollPhysics()
+                                        : null,
+                                    itemCount: _transactions
+                                        .getTransactions(0)
+                                        .length,
+                                    separatorBuilder: (context, index) {
+                                      return Divider(
+                                        height: 1,
+                                      );
+                                    },
+                                    itemBuilder: (context, index) {
+                                      return getRow(_transactions
+                                          .getTransactions(0)[index]);
+                                    },
+                                  )
                                       : Container(
-                                          alignment: Alignment.center,
-                                          child: Text("No Record found!"),
-                                        ),
+                                    alignment: Alignment.center,
+                                    child: Text("No Record found!"),
+                                  ),
                                 ),
                                 Divider(
                                   height: 1,
@@ -466,7 +468,7 @@ class _ReportState extends State<Report> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       Text(
                                         "Total ",
@@ -495,10 +497,12 @@ class _ReportState extends State<Report> {
             ),
             (_loading)
                 ? Container(
-                    color: Colors.white70,
-                    alignment: Alignment.center,
-                    child: CircularProgressIndicator(),
-                  )
+              color: Colors.white70,
+              alignment: Alignment.center,
+              child: CircularProgressIndicator(
+                backgroundColor: Colors.blue,
+              ),
+            )
                 : SizedBox()
           ],
         );
@@ -520,76 +524,21 @@ class _ReportState extends State<Report> {
       });
   }
 
-  Widget getRow(TransactionObject t) {
-    String date = DateFormat.yMd().format(DateTime.parse(t.transactionDate));
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: <Widget>[
-          Expanded(flex: 1, child: Text(date)),
-          Expanded(flex: 1, child: Text(t.transDescription)),
-          Expanded(
-              flex: 1,
-              child: Center(child: Text(t.transactionAmount.toString()))),
-        ],
-      ),
-    );
-  }
-
-  Widget getHeader(Color color) {
-    return Container(
-      color: color,
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            flex: 1,
-            child: Text(
-              "Date",
-              style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white),
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Text(
-              "Description",
-              style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white),
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Center(
-              child: Text(
-                "Amount",
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   void fetchDriverReport() async {
     try {
       setState(() {
         _loading = true;
       });
 
+      final prefs = await AppPreference.getInstance();
+      TokenRequestObject object = prefs.getUserCredentials();
+
       APIResponse<DriverDetails> response =
-          ServiceUtilities.decorateResponse<DriverDetails>(
-              await AuthenticationClient.create().getProfile("P100@LIBMOT.COM"),
-              DriverDetails());
-      print(response.payload);
+      ServiceUtilities.decorateResponse<DriverDetails>(
+          await AuthenticationClient.create().getPilotWallet(object.username),
+          DriverDetails());
+      print('yyy${object.username}');
+      print(' vxc${response.payload}');
       if (!response.hasErrors) {
         AppPreference.getInstance().then((pref) {
           pref.setPref("name", response.payload.name);
@@ -598,8 +547,9 @@ class _ReportState extends State<Report> {
           pref.setPref("email", response.payload.email);
           pref.setInt("userId", response.payload.userId);
           pref.setInt("id", response.payload.id);
+          pilotCode = response.payload.code;
           setState(() {
-            _name = pref.getString("name");
+            _name = response.payload.name;
           });
         });
       }
@@ -622,12 +572,14 @@ class _ReportState extends State<Report> {
 
       ReportRequest request = ReportRequest(
           startDate: "$year-${months.indexOf(currentMonthIndex) + 1}-01",
-          code: "LIBMOT002");
+          // code: "LIBMOT001");
+          code: pilotCode);
+
       print(request.toJSON());
       APIResponse<WalletTransactions> response =
-          ServiceUtilities.decorateResponse<WalletTransactions>(
-              await GetIt.I<AuthenticationClient>().getReport(request.toJSON()),
-              WalletTransactions());
+      ServiceUtilities.decorateResponse<WalletTransactions>(
+          await GetIt.I<AuthenticationClient>().getReport(request.toJSON()),
+          WalletTransactions());
       print("\n\n");
       print(response.payload.list.length);
 
@@ -640,47 +592,6 @@ class _ReportState extends State<Report> {
         _loading = false;
       });
     }
-  }
-
-  void setUp() async {
-    try {
-      setState(() {
-        _loading = true;
-      });
-      await AppPreference.getInstance().then((pref) async {
-        if (token == null) {
-          TokenRequestObject requestObject = pref.getUserCredentials();
-          APIResponse<TokenResponseObject> response =
-              ServiceUtilities.decorateTokenResponse<TokenResponseObject>(
-                  await AuthenticationClient.create()
-                      .getToken(requestObject.toJSON()),
-                  TokenResponseObject());
-          print(response.raw);
-          if (!response.hasErrors) {
-            // register
-            token = response.payload.access_token;
-          } else {
-            // log out
-            pref.setBoolPref(AppPreference.loggedIn, false);
-            Navigator.of(context).pop();
-          }
-        }
-        await startServices(token);
-        setState(() {
-          _loading = false;
-        });
-      });
-    } catch (e) {
-      setState(() {
-        _loading = false;
-      });
-    }
-  }
-
-  Future<void> startServices(String token) async {
-    GetIt.I.reset();
-    GetIt.I
-        .registerLazySingleton(() => AuthenticationClient.create(token: token));
   }
 
   List<String> months = [
@@ -697,16 +608,6 @@ class _ReportState extends State<Report> {
     'November',
     'December'
   ];
-
-  void logOut() {
-    AppPreference.getInstance().then((pref) {
-      pref.setBoolPref(AppPreference.loggedIn, false);
-    });
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => LogIn()),
-        ModalRoute.withName("/Login"));
-  }
 }
 
 class CustomClipperOval extends CustomClipper<Rect> {
