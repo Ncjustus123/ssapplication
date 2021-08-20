@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "267198992577",
+    "project_id": "libmot-self-service",
+    "storage_bucket": "libmot-self-service.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:267198992577:android:ba901a61f43754430e0440",
+        "android_client_info": {
+          "package_name": "com.libramotors.driver_salary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "267198992577-ucie7577e8eskj2e1ekq99hvjsmhtoqe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPOsAwPqGldLqyEMdtXYS8a042KL7CfAc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "267198992577-ucie7577e8eskj2e1ekq99hvjsmhtoqe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
